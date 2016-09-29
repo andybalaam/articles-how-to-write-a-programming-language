@@ -1,10 +1,10 @@
 # How to write a programming language - Part 1, The Lexer
 
-A programming language interpreter is a program that converts text (source
-code) into behaviour.  Because it's a program that operates on other programs,
-it can sound complicated - even something that shouldn't be attempted by mere
-mortals - but really, programming languages are relatively simple programs,
-often much simpler than the programs they are used to write.
+A programming language is a program that converts text (source code) into
+behaviour.  Because it's a program that works with other programs, it can sound
+complicated - even something that shouldn't be attempted by mere mortals - but
+really, programming languages are relatively simple programs, often much
+simpler than the programs they are used to write.
 
 ![](programming-language-noexe.svg)
 
@@ -218,6 +218,10 @@ that was unexpected.  Both of these produce (fairly unhelpful) error messages.
 We have now talked about the entire source code of Cell's lexer - that is all
 there is, so if you understand it, you have a good chance of understanding the
 lexer in your favourite programming language, or of writing your own.
+
+You can find the whole source code for Cell at
+https://github.com/andybalaam/cell along with articles and videos explaining
+more about how it works.
 
 ## Summary
 
