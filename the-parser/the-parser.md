@@ -210,18 +210,80 @@ variable called nxt.  Now we combine nxt with the information we already have,
 then return a tuple representing the whole operation: ("operation", value,
 prev, nxt).  This is our syntax tree for this expression.
 
+The next part of the elif checks for "(", which means we are calling a
+functions.  The prev variable should already contain the name of the function,
+so we just need to find the arguments we want to pass in.  To find the
+arguments, we call self.multiple_expressions, which is shown in listing 4.
+Once we have the arguments, we can build a syntax tree of type "call" and
+pass it on into another call to next_expression.
 
+By calling next_expression again, we allow multiple function calls to be stuck
+together, allowing us to write functions that return other functions and call
+them immediately.  For example, divide_by(3)(12); might return 4, because
+divide_by(3) could return a function that divides whatever you pass in by 3.
 
+    Listing 4
 
+    def multiple_expressions(self, sep, end):
+        ret = []
+        self.fail_if_at_end(end)
+        typ = self.tokens.next[0]
+        if typ == end:
+            self.tokens.move_next()
+        else:
+            arg_parser = Parser(self.tokens, (sep, end))
+            while typ != end:
+                p = arg_parser.next_expression(None)
+                if p is not None:
+                    ret.append(p)
+                typ = self.tokens.next[0]
+                self.tokens.move_next()
+                self.fail_if_at_end(end)
+        return ret
 
+The multiple_expressions method parses several expressions separated by tokens
+of the type we provided ("sep") and finishing when we get to another token
+("end").  In the example we have seen so far, the separator was "," and the
+end token was ")" because we are looking for the arguments being passed to a
+function.
+
+The code of multiple_expressions itself creates a new instance of the Parser
+class for every expression it looks for, telling it to stop when it hits
+the separator or the end, and stops looking when it hits the end.
+
+Switching back to the big if/elif block from listing 3, the last two
+significant parts check for "{" and "=" tokens.  "{" means we are defining
+a function, so we use multiple_expressions again to find the statements inside
+the function, and the parameters_list function, which is like a simplified
+version of multiple_expressions that just looks for the names of the arguments
+to the function (we skip it here for brevity).
+
+The "=" sign means we are defining a variable, which is quite simple - we just
+check that the previous token was a symbol, and then make an "assignment"
+syntax tree with that symbol and whatever is onthe right-hand side.
+
+If we get to the "else" part, we have encountered tokens in an order we can't
+recognise, and we raise an exception, which prints a (very unfriendly) error
+for the user.
+
+If you've managed to follow so far, you have seen all the interesting parts
+of Cell's parser - why not try adapting it or writing your own language that
+works the way you want it to?
 
 ## Summary
 
-Lexers do a very simple job: read in the text version of a program, and break
-up the parts of it into separate tokens that make sense to the next part: the
-parser.
+Parsing is an odd programming task, because we want to handle it piece by
+piece, but we sometimes need to soak up several tokens before we know what
+we are dealing with, and we need to produce a nested structure as our output.
+By using recursion (calling next_expression from inside itself) we can get
+the nested structure almost for free.
 
-Next time, we'll look at Cell's parser, and how it takes in tokens and arranges
-them into a tree shape reflecting the actual structure of the instructions we
-are giving to the computer.  After that we'll look at how the evaluator turns
-that tree into actual behaviour, making a real, working programming language.
+The code we looked at here is more complicated than the lexer we saw in the
+last article, but I think you'll agree there is no magic here.  The whole of
+Cell's parser is just 81 lines of code (including empty lines).  You can find
+it on the GitHub page at https://github.com/andybalaam/cell along with more
+explanations (including some videos).
+
+Next time, we'll get to the point: we'll look at the evaluator, which takes in
+the nice structured syntax tree produced by the parser and actually does
+things, turning our code into behaviour.
