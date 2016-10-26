@@ -49,6 +49,8 @@ a few simple structures.
 
 ## Cell's parser
 
+![](parser.svg)
+
 Cell has four expression types:
 
 * Assignment - "x = 3"
