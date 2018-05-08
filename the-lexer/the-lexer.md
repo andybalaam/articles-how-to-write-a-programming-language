@@ -17,8 +17,12 @@ be ready to start designing your own!
 Most programming languages are designed to make life easy for someone: usually
 that person is the programmer who will be writing programs in the language.
 Different languages have different designs based on the needs of that person -
-for example, Python is designed to make code easy to read, and Rust is designed
-to make it easy to avoid certain kinds of mistakes.
+for example, Python is designed (among other things [1]) to make code easy to
+read, and Rust is designed (among other things [2]) to make it easy to avoid
+certain kinds of mistakes.
+
+[1] https://www.python.org/dev/peps/pep-0020/
+[2] https://doc.rust-lang.org/book/second-edition/index.html
 
 Cell is unusual because it is designed to make life easy for us: the people who
 are writing it.  Lots of things about its design mean that we can write less
