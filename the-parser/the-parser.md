@@ -23,7 +23,7 @@ to build your own!
 Last time we saw that the language we are writing, Cell, is designed to be
 simple to write, rather than being particularly easy to use.  It also lacks a
 lot of the error handling and other important features of a real language, but
-it does allow us to doing the normal things we do when programming: make
+it does allow us to do the normal things we do when programming: make
 variables, define functions and perform logic and mathematical operations.
 
 One of the ways Cell is simpler than other languages is that things like "if"
@@ -124,7 +124,7 @@ When we create the Parser object we pass two objects in to its constructor: the
 stream of tokens, and ";", which tells the parser when to stop.  Here we end
 when we hit a semi-colon because we are parsing whole statements, and all
 statements in Cell end with a semi-colon.  Later we will make other Parser
-object that stop parsing when they hit other types of token like "," and ")".
+objects that stop parsing when they hit other types of token like "," and ")".
 
 ## The Parser class
 
