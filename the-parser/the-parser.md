@@ -211,6 +211,14 @@ variable called nxt.  Now we combine nxt with the information we already have,
 then return a tuple representing the whole operation: ("operation", value,
 prev, nxt).  This is our syntax tree for this expression.
 
+Side note: because we parse "everything else" and use it as the right-hand side
+in the operation, we handle what is normally called "operator precedence"
+differently from most languages. In Cell, there is no difference between
+different operators in terms of what gets evaluated first, so multiplications
+won't get done before additions or similar - things on the right-hand side will
+always be evaluated first. So, "2 - 3 * 4 + 5" is treated like "2 - (3 * (4 +
+5))", and "a - b / c + d" is treated like "a - (b / (c + d))".
+
 The next elif part checks for "(", which means we are calling a function.  The
 prev variable should already contain the name of the function, so we just need
 to find the arguments we want to pass in.  To find the arguments, we call
