@@ -211,14 +211,6 @@ variable called nxt.  Now we combine nxt with the information we already have,
 then return a tuple representing the whole operation: ("operation", value,
 prev, nxt).  This is our syntax tree for this expression.
 
-Side note: because we parse "everything else" and use it as the right-hand side
-in the operation, we handle what is normally called "operator precedence"
-differently from most languages. In Cell, there is no difference between
-different operators in terms of what gets evaluated first, so multiplications
-won't get done before additions or similar - things on the right-hand side will
-always be evaluated first. So, "2 - 3 * 4 + 5" is treated like "2 - (3 * (4 +
-5))", and "a - b / c + d" is treated like "a - (b / (c + d))".
-
 The next elif part checks for "(", which means we are calling a function.  The
 prev variable should already contain the name of the function, so we just need
 to find the arguments we want to pass in.  To find the arguments, we call
@@ -280,6 +272,25 @@ If you've managed to follow so far, you have seen all the interesting parts
 of Cell's parser - why not try adapting it or writing your own language that
 works the way you want it to?
 
+## A note on operator precedence
+
+If you were watching closely, you might have noticed one of the quirks of
+Cell's parser that makes it different from most similar-looking languages:
+the order in which expressions are grouped when they contain multiple terms.
+
+Most languages follow rules inspired by mathematical expressions, so that
+e.g. multiplications are grouped together before additions, meaning "3*4+1"
+evaluates to 12.
+
+Cell is different.  Because we parse "everything else" and use it as the
+right-hand side in the operation, we group things on the right before things on
+the left, and we treat all operators the same, so "3*4+1" evaluates to 15.
+
+Cell works this way because it means have to write less code, but doing things
+the more normal way would be perfectly possible - we simply need to collect
+the full list of chained expressions before we start grouping them according
+to some precedence rules.
+
 ## Summary
 
 Parsing is an odd programming task, because we want to handle it piece by
@@ -293,6 +304,18 @@ last article, but I think you'll agree there is no magic here.  The whole of
 Cell's parser is just 81 lines of code (including empty lines).  You can find
 it on Cell's GitHub site at https://github.com/andybalaam/cell along with more
 explanations (including some videos).
+
+While Cell's parser does work for a real, working language (if a toy one), it
+is a very simple example, and there is a huge amount you can learn about
+different types of parser, as well as tools that automatically build the code
+of a parser from some higher-level description of the language.  A good place
+to start is the Wikipedia page "Parsing"[1].
+
+[1] https://en.wikipedia.org/wiki/Parsing
+
+You can find the whole source code for Cell at
+https://github.com/andybalaam/cell along with articles and videos explaining
+more about how it works.
 
 Next time, we'll get to the real point: we'll look at the evaluator, which
 takes in the nice structured syntax tree produced by the parser and actually
