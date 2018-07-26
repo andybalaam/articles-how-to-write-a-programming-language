@@ -98,7 +98,7 @@ They can be nested inside each other like this:
 which is the syntax tree representing the code "x = 3 + 4".
 
 Note: above we wrote "x", 3 and 4 but in the actual syntax tree these will
-be full lexer tokens like ("symbol", "x") and ("number", 3).
+be full lexer tokens like ("symbol", "x") and ("number", "3").
 
 Enough introduction - let's get into the code.
 
