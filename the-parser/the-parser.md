@@ -56,7 +56,7 @@ Cell has four expression types:
 * Assignment - "x = 3"
 * Operations - "4 + y"
 * Function calls - "sqrt( -1 )"
-* Function definitions - "{:(x, y) x*x + y*y;}"
+* Function definitions - "{:(x, y) x + y;}"
 
 The parser's job is to recognise from the tokens it sees which of these
 expression types it is seeing, and build up a tree structure of the
